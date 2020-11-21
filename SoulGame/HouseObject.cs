@@ -12,6 +12,7 @@ namespace LonelySoul
         public SoundEffect hauntSound;
         public Texture2D defaultSprite;
         public Texture2D hauntSprite;
+        public Vector2 walkPosition;
 
         public bool haunted;
         protected int hauntTime;
@@ -24,6 +25,8 @@ namespace LonelySoul
             position.X = X * 16;
             position.Y = Y * 16;
 
+            walkPosition = position;
+            walkPosition.Y += 16;
             haunted = false;
         }
 

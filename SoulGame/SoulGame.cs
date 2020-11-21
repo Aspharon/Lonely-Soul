@@ -75,10 +75,10 @@ namespace LonelySoul
 
             Objects.List.Add(body);
 
-            Objects.List.Add(person);
-
             Objects.List.Add(player);
 
+            Objects.List.Add(person);
+            
             foreach (HouseObject h in Objects.List.OfType<HouseObject>())
                 h.LoadSprites(Content);
         }

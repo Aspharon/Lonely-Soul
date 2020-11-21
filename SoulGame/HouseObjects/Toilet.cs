@@ -10,6 +10,7 @@ namespace LonelySoul.HouseObjects
         {
             hauntTime = 150;
             spriteName = "toilet";
+            walkPosition = position;
         }
     }
 }
