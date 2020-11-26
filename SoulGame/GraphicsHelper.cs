@@ -14,7 +14,7 @@ namespace LonelySoul
     {
         RenderTarget2D render;
         public GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
         public static readonly int zoom = 6;
         public static readonly int renderWidth = 224;

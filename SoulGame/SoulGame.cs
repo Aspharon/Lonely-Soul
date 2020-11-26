@@ -16,9 +16,11 @@ namespace LonelySoul
         private InputHelper inputHelper;
         private GraphicsHelper graphicsHelper;
 
+        Texture2D endScreen, personP;
         Player player;
         Body body;
         Person person;
+        byte gamestate = 0;
 
         public SoulGame()
         {
@@ -41,12 +43,14 @@ namespace LonelySoul
             player.sprites[1] = Content.Load<Texture2D>("soul2");
             player.sprites[2] = Content.Load<Texture2D>("soul3");
             player.sprites[3] = Content.Load<Texture2D>("soul4");
+            endScreen = Content.Load<Texture2D>("endScreen");
 
             body = new Body();
             body.sprite = Content.Load<Texture2D>("body");
 
             person = new Person();
             person.sprite = Content.Load<Texture2D>("person");
+            personP = Content.Load<Texture2D>("personP");
 
             HouseObjects.Lamp lamp = new HouseObjects.Lamp(3,1);
             HouseObjects.Computer computer = new HouseObjects.Computer(2, 1);
@@ -75,12 +79,22 @@ namespace LonelySoul
 
             Objects.List.Add(body);
 
+            Objects.List.Add(person);
+
             Objects.List.Add(player);
 
-            Objects.List.Add(person);
-            
             foreach (HouseObject h in Objects.List.OfType<HouseObject>())
                 h.LoadSprites(Content);
+        }
+
+        protected override void UnloadContent()
+        {
+            endScreen = null;
+            player = null;
+            body = null;
+            person = null;
+            Objects.List.Clear();
+            gamestate = 0;
         }
 
         protected override void Update(GameTime gameTime)
@@ -95,8 +109,23 @@ namespace LonelySoul
             graphicsHelper.HandleInput(inputHelper);
             foreach(GameObject obj in Objects.List)
                 obj.HandleInput(inputHelper);
-            foreach(GameObject obj in Objects.List)
-                obj.Update(gameTime);
+            if (gamestate == 0)
+            {
+                foreach (GameObject obj in Objects.List)
+                    obj.Update(gameTime);
+            }
+
+            if (person.position == body.position)
+            {
+                person.sprite = personP;
+                gamestate = 1;
+            }
+
+            if (inputHelper.KeyDown(Keys.Space) && gamestate == 1)
+            {
+                UnloadContent();
+                LoadContent();
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -104,6 +133,12 @@ namespace LonelySoul
             base.Draw(gameTime);
             GraphicsDevice.SetRenderTarget(null);
             graphicsHelper.Draw(gameTime);
+            if (gamestate == 1)
+            {
+                graphicsHelper.spriteBatch.Begin(0, null, SamplerState.PointClamp);
+                graphicsHelper.spriteBatch.Draw(endScreen, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                graphicsHelper.spriteBatch.End();
+            }
         }
     }
 }

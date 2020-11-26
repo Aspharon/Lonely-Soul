@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using MonoGame.Extended;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
@@ -58,7 +59,11 @@ namespace LonelySoul
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (haunted)
+            {
                 spriteBatch.Draw(hauntSprite, position);
+                if (haunter < 30)
+                    spriteBatch.DrawCircle(new CircleF(position + (new Vector2 (8,8)), haunter * 4), 30, Color.White);
+            }
             else
                 spriteBatch.Draw(defaultSprite, position);
         }

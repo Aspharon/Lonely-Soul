@@ -37,9 +37,11 @@ namespace LonelySoul
 
             public void WalkTo(Vector2 pos)
         {
-            Vector2 p1 = position / 16;
-            Vector2 p2 = pos / 16;
-            path = astar.FindPath(position / 16, pos / 16);
+            //if (FacingPos(pos / 16))
+            {
+                path = astar.FindPath(position / 16, pos / 16);
+            }
+            //else Face(pos / 16);
         }
 
         void Walk()
@@ -55,14 +57,29 @@ namespace LonelySoul
             }
             Vector2 tarPosNor = target.Position * 16;
             position += Vector2.Normalize(tarPosNor - position);
-            if (Vector2.Normalize(tarPosNor - position).X > 0)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            else if (Vector2.Normalize(tarPosNor - position).X < 0)
-                spriteEffects = SpriteEffects.None;
+
+            Face(target.Position);
+
             if (position == tarPosNor)
                 target = null;
         }
 
+        bool FacingPos(Vector2 pos)
+        {
+            pos = pos * 16;
+            if ((pos.X - position.X > 0 && spriteEffects == SpriteEffects.FlipHorizontally) | (pos.X - position.X < 0 && spriteEffects == SpriteEffects.None))
+                return true;
+            else return false;
+        }
+
+        void Face(Vector2 pos)
+        {
+            pos = pos * 16;
+            if (Vector2.Normalize(pos - position).X > 0)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            else if (Vector2.Normalize(pos - position).X < 0)
+                spriteEffects = SpriteEffects.None;
+        }
 
         private List<List<Node>> SetGrid()
         {

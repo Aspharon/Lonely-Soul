@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System.IO;
 using System.Linq;
 
@@ -14,7 +15,7 @@ namespace LonelySoul
     {
         public Texture2D[] sprites;
         private byte currentSprite;
-        private byte counter;
+        private int counter;
 
         public Player()
         {
@@ -26,7 +27,7 @@ namespace LonelySoul
         public override void Update(GameTime gameTime)
         {
             counter++;
-            byte animationSpeed = 10;
+            byte animationSpeed = 12;
             if (counter % animationSpeed == 0)
             {
                 if (currentSprite == 3)
@@ -38,7 +39,7 @@ namespace LonelySoul
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            int moveSpeed = 2;
+            float moveSpeed = 1.7f;
             Vector2 moveVector = new Vector2(0, 0);
             if (inputHelper.KeyDown(Keys.W) && position.Y > 0)
                 moveVector += new Vector2(0, -moveSpeed);
